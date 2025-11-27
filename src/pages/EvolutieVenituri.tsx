@@ -16,7 +16,8 @@ import {
 const { Title, Text } = Typography;
 
 export default function EvolutieVenituri() {
-  const [cheltuieliAnuale, setCheltuieliAnuale] = useState<number>(10000);
+  const [procentCheltuieliPfa, setProcentCheltuieliPfa] = useState<number>(10);
+  const [procentCheltuieliSrl, setProcentCheltuieliSrl] = useState<number>(10);
   const [procentDividende, setProcentDividende] = useState<number>(50);
   const [venitMin, setVenitMin] = useState<number>(100000);
   const [venitMax, setVenitMax] = useState<number>(500000);
@@ -29,13 +30,17 @@ export default function EvolutieVenituri() {
       srlNet: number;
       pfaTaxe: number;
       srlTaxe: number;
+      profitRamaneFirma: number;
+      dividendeNete: number;
     }> = [];
 
     for (let venit = venitMin; venit <= venitMax; venit += step) {
-      const rezultatePfa = taxePfa(venit, cheltuieliAnuale);
-      const profit = venit - cheltuieliAnuale;
+      const cheltuieliAnualePfa = venit * (procentCheltuieliPfa / 100);
+      const cheltuieliAnualeSrl = venit * (procentCheltuieliSrl / 100);
+      const rezultatePfa = taxePfa(venit, cheltuieliAnualePfa);
+      const profit = venit - cheltuieliAnualeSrl;
       const dividendeAnuale = profit * (procentDividende / 100);
-      const rezultateSrl = taxeSrl(venit, cheltuieliAnuale, dividendeAnuale);
+      const rezultateSrl = taxeSrl(venit, cheltuieliAnualeSrl, dividendeAnuale);
 
       points.push({
         venit,
@@ -43,11 +48,20 @@ export default function EvolutieVenituri() {
         srlNet: rezultateSrl.divdendeNete + rezultateSrl.venitNetDupaTaxe,
         pfaTaxe: rezultatePfa.totalTaxe,
         srlTaxe: rezultateSrl.totalTaxe,
+        profitRamaneFirma: rezultateSrl.venitNetDupaTaxe,
+        dividendeNete: rezultateSrl.divdendeNete,
       });
     }
 
     return points;
-  }, [venitMin, venitMax, step, cheltuieliAnuale, procentDividende]);
+  }, [
+    venitMin,
+    venitMax,
+    step,
+    procentCheltuieliPfa,
+    procentCheltuieliSrl,
+    procentDividende,
+  ]);
 
   return (
     <Flex
@@ -73,16 +87,30 @@ export default function EvolutieVenituri() {
         <Row gutter={[24, 24]}>
           <Col xs={24} md={6}>
             <Flex vertical gap={8}>
-              <Text strong>Cheltuieli Anuale</Text>
+              <Text strong>Procent Cheltuieli PFA</Text>
               <InputNumber
                 size="large"
-                value={cheltuieliAnuale}
-                onChange={(val) => setCheltuieliAnuale(val || 0)}
-                formatter={(value) =>
-                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                }
-                parser={(value) => Number(value?.replace(/,/g, "") || 0)}
-                addonAfter="RON"
+                value={procentCheltuieliPfa}
+                onChange={(val) => setProcentCheltuieliPfa(val || 0)}
+                min={0}
+                max={100}
+                formatter={(value) => `${value}%`}
+                parser={(value) => Number(value?.replace(/%/g, "") || 0)}
+                style={{ width: "100%" }}
+              />
+            </Flex>
+          </Col>
+          <Col xs={24} md={6}>
+            <Flex vertical gap={8}>
+              <Text strong>Procent Cheltuieli SRL</Text>
+              <InputNumber
+                size="large"
+                value={procentCheltuieliSrl}
+                onChange={(val) => setProcentCheltuieliSrl(val || 0)}
+                min={0}
+                max={100}
+                formatter={(value) => `${value}%`}
+                parser={(value) => Number(value?.replace(/%/g, "") || 0)}
                 style={{ width: "100%" }}
               />
             </Flex>
@@ -183,6 +211,24 @@ export default function EvolutieVenituri() {
               stroke="#722ed1"
               strokeWidth={2}
               name="SRL - Venit Net"
+              dot={false}
+            />
+            <Line
+              type="monotone"
+              dataKey="profitRamaneFirma"
+              stroke="#52c41a"
+              strokeWidth={2}
+              strokeDasharray="5 5"
+              name="Profit Rămâne în Firmă"
+              dot={false}
+            />
+            <Line
+              type="monotone"
+              dataKey="dividendeNete"
+              stroke="#faad14"
+              strokeWidth={2}
+              strokeDasharray="5 5"
+              name="Dividende Nete"
               dot={false}
             />
           </LineChart>
