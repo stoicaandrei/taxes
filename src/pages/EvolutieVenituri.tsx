@@ -168,17 +168,17 @@ export default function EvolutieVenituri() {
                 <Line
                   type="monotone"
                   dataKey="pfaNet"
-                  stroke="#1677ff"
-                  strokeWidth={2}
+                  stroke="#0066CC"
+                  strokeWidth={3}
                   name="PFA - Venit Net"
                   dot={false}
                 />
                 <Line
                   type="monotone"
                   dataKey="srlNet"
-                  stroke="#722ed1"
-                  strokeWidth={2}
-                  name="SRL - Venit Net"
+                  stroke="#FF6600"
+                  strokeWidth={3}
+                  name="SRL - TOTAL"
                   dot={false}
                 />
                 <Line
@@ -187,7 +187,7 @@ export default function EvolutieVenituri() {
                   stroke="#52c41a"
                   strokeWidth={2}
                   strokeDasharray="5 5"
-                  name="Profit Rămâne în Firmă"
+                  name="SRL - Profit Firmă"
                   dot={false}
                 />
                 <Line
@@ -196,7 +196,7 @@ export default function EvolutieVenituri() {
                   stroke="#faad14"
                   strokeWidth={2}
                   strokeDasharray="5 5"
-                  name="Dividende Nete"
+                  name="SRL - Dividende Nete"
                   dot={false}
                 />
               </LineChart>
@@ -237,16 +237,17 @@ export default function EvolutieVenituri() {
                 <Line
                   type="monotone"
                   dataKey="pfaTaxe"
-                  stroke="#ff4d4f"
-                  strokeWidth={2}
+                  stroke="#003366"
+                  strokeWidth={3}
                   name="PFA - Total Taxe"
                   dot={false}
                 />
                 <Line
                   type="monotone"
                   dataKey="srlTaxe"
-                  stroke="#fa8c16"
-                  strokeWidth={2}
+                  stroke="#CC3300"
+                  strokeWidth={3}
+                  strokeDasharray="8 4"
                   name="SRL - Total Taxe"
                   dot={false}
                 />
@@ -265,7 +266,7 @@ export default function EvolutieVenituri() {
               </Text>
               <Slider
                 min={30000}
-                max={500000}
+                max={2000000}
                 step={10000}
                 value={venitMin}
                 onChange={setVenitMin}
@@ -282,7 +283,7 @@ export default function EvolutieVenituri() {
               </Text>
               <Slider
                 min={100000}
-                max={1000000}
+                max={5000000}
                 step={10000}
                 value={venitMax}
                 onChange={setVenitMax}

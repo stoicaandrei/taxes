@@ -16,14 +16,17 @@ const IMPOZIT_PROFIT_SRL_PCT = 0.16;
 const IMPOZIT_DIVIDENDE_SRL_PCT = 0.16;
 
 export const taxePfa = (venitAnual: number, cheltuieliAnuale: number) => {
-  const venitNetAnual = venitAnual - cheltuieliAnuale;
+  const venitDupaCheltuieli = venitAnual - cheltuieliAnuale;
 
-  const casDatorat = plafonCAS(venitNetAnual) * CAS_PCT;
-  const cassDatorat = plafonCassPfa(venitNetAnual) * CASS_PCT;
-  const impozitDatorat = venitNetAnual * IMPOZIT_VENIT_PFA_PCT;
+  const casDatorat = plafonCAS(venitDupaCheltuieli) * CAS_PCT;
+  const cassDatorat = plafonCassPfa(venitDupaCheltuieli) * CASS_PCT;
+
+  const venitDupaContributii = venitDupaCheltuieli - casDatorat - cassDatorat;
+  const impozitDatorat = venitDupaContributii * IMPOZIT_VENIT_PFA_PCT;
 
   const totalTaxe = casDatorat + cassDatorat + impozitDatorat;
-  const venitNetDupaTaxe = venitNetAnual - totalTaxe;
+
+  const venitNetDupaTaxe = venitAnual - totalTaxe;
 
   return {
     casDatorat,
@@ -49,7 +52,7 @@ export const taxeSrl = (
 
   const totalTaxe =
     impozitProfitDatorat + impozitDividendeDatorat + cassDatorat;
-  const venitNetDupaTaxe = venitNetAnual - totalTaxe - dividendeAnuale;
+  const venitNetDupaTaxe = venitNetAnual - totalTaxe - divdendeNete;
 
   return {
     impozitProfitDatorat,
