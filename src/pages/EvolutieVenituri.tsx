@@ -19,8 +19,8 @@ export default function EvolutieVenituri() {
   const [procentCheltuieliPfa, setProcentCheltuieliPfa] = useState<number>(10);
   const [procentCheltuieliSrl, setProcentCheltuieliSrl] = useState<number>(10);
   const [procentDividende, setProcentDividende] = useState<number>(50);
-  const [venitMin, setVenitMin] = useState<number>(100000);
-  const [venitMax, setVenitMax] = useState<number>(500000);
+  const [venitMin, setVenitMin] = useState<number>(500000);
+  const [venitMax, setVenitMax] = useState<number>(900000);
   const [step] = useState<number>(10000);
 
   const data = useMemo(() => {
@@ -130,7 +130,135 @@ export default function EvolutieVenituri() {
               />
             </Flex>
           </Col>
-          <Col xs={24} md={6}>
+        </Row>
+      </Card>
+
+      <Row gutter={[24, 24]}>
+        <Col xs={24} lg={12}>
+          <Card title="Venit Net După Taxe">
+            <ResponsiveContainer width="100%" height={500}>
+              <LineChart data={data}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="venit"
+                  tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
+                  label={{
+                    value: "Venit Anual (RON)",
+                    position: "insideBottom",
+                    offset: -5,
+                  }}
+                />
+                <YAxis
+                  tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
+                  label={{
+                    value: "Venit Net (RON)",
+                    angle: -90,
+                    position: "insideLeft",
+                  }}
+                />
+                <Tooltip
+                  formatter={(value: number) =>
+                    `${value.toLocaleString("ro-RO")} RON`
+                  }
+                  labelFormatter={(value) =>
+                    `Venit: ${value.toLocaleString("ro-RO")} RON`
+                  }
+                />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="pfaNet"
+                  stroke="#1677ff"
+                  strokeWidth={2}
+                  name="PFA - Venit Net"
+                  dot={false}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="srlNet"
+                  stroke="#722ed1"
+                  strokeWidth={2}
+                  name="SRL - Venit Net"
+                  dot={false}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="profitRamaneFirma"
+                  stroke="#52c41a"
+                  strokeWidth={2}
+                  strokeDasharray="5 5"
+                  name="Profit Rămâne în Firmă"
+                  dot={false}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="dividendeNete"
+                  stroke="#faad14"
+                  strokeWidth={2}
+                  strokeDasharray="5 5"
+                  name="Dividende Nete"
+                  dot={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </Card>
+        </Col>
+        <Col xs={24} lg={12}>
+          <Card title="Total Taxe">
+            <ResponsiveContainer width="100%" height={500}>
+              <LineChart data={data}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="venit"
+                  tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
+                  label={{
+                    value: "Venit Anual (RON)",
+                    position: "insideBottom",
+                    offset: -5,
+                  }}
+                />
+                <YAxis
+                  tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
+                  label={{
+                    value: "Taxe (RON)",
+                    angle: -90,
+                    position: "insideLeft",
+                  }}
+                />
+                <Tooltip
+                  formatter={(value: number) =>
+                    `${value.toLocaleString("ro-RO")} RON`
+                  }
+                  labelFormatter={(value) =>
+                    `Venit: ${value.toLocaleString("ro-RO")} RON`
+                  }
+                />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="pfaTaxe"
+                  stroke="#ff4d4f"
+                  strokeWidth={2}
+                  name="PFA - Total Taxe"
+                  dot={false}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="srlTaxe"
+                  stroke="#fa8c16"
+                  strokeWidth={2}
+                  name="SRL - Total Taxe"
+                  dot={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </Card>
+        </Col>
+      </Row>
+
+      <Card title="Interval Venituri">
+        <Row gutter={[24, 24]}>
+          <Col xs={24} md={12}>
             <Flex vertical gap={8}>
               <Text strong>
                 Venit Minim: {venitMin.toLocaleString("ro-RO")} RON
@@ -147,7 +275,7 @@ export default function EvolutieVenituri() {
               />
             </Flex>
           </Col>
-          <Col xs={24} md={6}>
+          <Col xs={24} md={12}>
             <Flex vertical gap={8}>
               <Text strong>
                 Venit Maxim: {venitMax.toLocaleString("ro-RO")} RON
@@ -165,124 +293,6 @@ export default function EvolutieVenituri() {
             </Flex>
           </Col>
         </Row>
-      </Card>
-
-      <Card title="Venit Net După Taxe">
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey="venit"
-              tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
-              label={{
-                value: "Venit Anual (RON)",
-                position: "insideBottom",
-                offset: -5,
-              }}
-            />
-            <YAxis
-              tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
-              label={{
-                value: "Venit Net (RON)",
-                angle: -90,
-                position: "insideLeft",
-              }}
-            />
-            <Tooltip
-              formatter={(value: number) =>
-                `${value.toLocaleString("ro-RO")} RON`
-              }
-              labelFormatter={(value) =>
-                `Venit: ${value.toLocaleString("ro-RO")} RON`
-              }
-            />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="pfaNet"
-              stroke="#1677ff"
-              strokeWidth={2}
-              name="PFA - Venit Net"
-              dot={false}
-            />
-            <Line
-              type="monotone"
-              dataKey="srlNet"
-              stroke="#722ed1"
-              strokeWidth={2}
-              name="SRL - Venit Net"
-              dot={false}
-            />
-            <Line
-              type="monotone"
-              dataKey="profitRamaneFirma"
-              stroke="#52c41a"
-              strokeWidth={2}
-              strokeDasharray="5 5"
-              name="Profit Rămâne în Firmă"
-              dot={false}
-            />
-            <Line
-              type="monotone"
-              dataKey="dividendeNete"
-              stroke="#faad14"
-              strokeWidth={2}
-              strokeDasharray="5 5"
-              name="Dividende Nete"
-              dot={false}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </Card>
-
-      <Card title="Total Taxe">
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey="venit"
-              tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
-              label={{
-                value: "Venit Anual (RON)",
-                position: "insideBottom",
-                offset: -5,
-              }}
-            />
-            <YAxis
-              tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
-              label={{
-                value: "Taxe (RON)",
-                angle: -90,
-                position: "insideLeft",
-              }}
-            />
-            <Tooltip
-              formatter={(value: number) =>
-                `${value.toLocaleString("ro-RO")} RON`
-              }
-              labelFormatter={(value) =>
-                `Venit: ${value.toLocaleString("ro-RO")} RON`
-              }
-            />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="pfaTaxe"
-              stroke="#ff4d4f"
-              strokeWidth={2}
-              name="PFA - Total Taxe"
-              dot={false}
-            />
-            <Line
-              type="monotone"
-              dataKey="srlTaxe"
-              stroke="#fa8c16"
-              strokeWidth={2}
-              name="SRL - Total Taxe"
-              dot={false}
-            />
-          </LineChart>
-        </ResponsiveContainer>
       </Card>
     </Flex>
   );
