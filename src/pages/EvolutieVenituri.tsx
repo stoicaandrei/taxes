@@ -18,8 +18,8 @@ const { Title, Text } = Typography;
 export default function EvolutieVenituri() {
   const [cheltuieliAnuale, setCheltuieliAnuale] = useState<number>(10000);
   const [procentDividende, setProcentDividende] = useState<number>(50);
-  const [venitMin, setVenitMin] = useState<number>(50000);
-  const [venitMax, setVenitMax] = useState<number>(300000);
+  const [venitMin, setVenitMin] = useState<number>(100000);
+  const [venitMax, setVenitMax] = useState<number>(500000);
   const [step] = useState<number>(10000);
 
   const data = useMemo(() => {
@@ -104,27 +104,35 @@ export default function EvolutieVenituri() {
           </Col>
           <Col xs={24} md={6}>
             <Flex vertical gap={8}>
-              <Text strong>Venit Minim: {venitMin.toLocaleString("ro-RO")} RON</Text>
+              <Text strong>
+                Venit Minim: {venitMin.toLocaleString("ro-RO")} RON
+              </Text>
               <Slider
-                min={10000}
-                max={200000}
+                min={30000}
+                max={500000}
                 step={10000}
                 value={venitMin}
                 onChange={setVenitMin}
-                tooltip={{ formatter: (val) => `${val?.toLocaleString("ro-RO")} RON` }}
+                tooltip={{
+                  formatter: (val) => `${val?.toLocaleString("ro-RO")} RON`,
+                }}
               />
             </Flex>
           </Col>
           <Col xs={24} md={6}>
             <Flex vertical gap={8}>
-              <Text strong>Venit Maxim: {venitMax.toLocaleString("ro-RO")} RON</Text>
+              <Text strong>
+                Venit Maxim: {venitMax.toLocaleString("ro-RO")} RON
+              </Text>
               <Slider
                 min={100000}
-                max={500000}
+                max={1000000}
                 step={10000}
                 value={venitMax}
                 onChange={setVenitMax}
-                tooltip={{ formatter: (val) => `${val?.toLocaleString("ro-RO")} RON` }}
+                tooltip={{
+                  formatter: (val) => `${val?.toLocaleString("ro-RO")} RON`,
+                }}
               />
             </Flex>
           </Col>
@@ -138,15 +146,27 @@ export default function EvolutieVenituri() {
             <XAxis
               dataKey="venit"
               tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
-              label={{ value: "Venit Anual (RON)", position: "insideBottom", offset: -5 }}
+              label={{
+                value: "Venit Anual (RON)",
+                position: "insideBottom",
+                offset: -5,
+              }}
             />
             <YAxis
               tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
-              label={{ value: "Venit Net (RON)", angle: -90, position: "insideLeft" }}
+              label={{
+                value: "Venit Net (RON)",
+                angle: -90,
+                position: "insideLeft",
+              }}
             />
             <Tooltip
-              formatter={(value: number) => `${value.toLocaleString("ro-RO")} RON`}
-              labelFormatter={(value) => `Venit: ${value.toLocaleString("ro-RO")} RON`}
+              formatter={(value: number) =>
+                `${value.toLocaleString("ro-RO")} RON`
+              }
+              labelFormatter={(value) =>
+                `Venit: ${value.toLocaleString("ro-RO")} RON`
+              }
             />
             <Legend />
             <Line
@@ -176,15 +196,27 @@ export default function EvolutieVenituri() {
             <XAxis
               dataKey="venit"
               tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
-              label={{ value: "Venit Anual (RON)", position: "insideBottom", offset: -5 }}
+              label={{
+                value: "Venit Anual (RON)",
+                position: "insideBottom",
+                offset: -5,
+              }}
             />
             <YAxis
               tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
-              label={{ value: "Taxe (RON)", angle: -90, position: "insideLeft" }}
+              label={{
+                value: "Taxe (RON)",
+                angle: -90,
+                position: "insideLeft",
+              }}
             />
             <Tooltip
-              formatter={(value: number) => `${value.toLocaleString("ro-RO")} RON`}
-              labelFormatter={(value) => `Venit: ${value.toLocaleString("ro-RO")} RON`}
+              formatter={(value: number) =>
+                `${value.toLocaleString("ro-RO")} RON`
+              }
+              labelFormatter={(value) =>
+                `Venit: ${value.toLocaleString("ro-RO")} RON`
+              }
             />
             <Legend />
             <Line
@@ -209,4 +241,3 @@ export default function EvolutieVenituri() {
     </Flex>
   );
 }
-
